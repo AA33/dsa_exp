@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 __author__ = 'aanurag'
 
 import sys
