@@ -78,9 +78,9 @@ def printAllLongestCommonSubsequences(str1, str2, memo=None, i=None, j=None, sol
 def printMemo(memo):
     rows = len(memo)
     columns = len(memo[0])
-    for i in range(columns):
-        for j in range(rows):
-            sys.stdout.write(str(memo[j][i]) + ' ')
+    for i in range(rows):
+        for j in range(columns):
+            sys.stdout.write(str(memo[i][j]) + ' ')
         print
 
 
