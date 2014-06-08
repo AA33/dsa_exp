@@ -9,14 +9,21 @@ from sorting_misc import heapsort
 
 
 class graph:
-    def __init__(self, num_of_vertices, edges, directed=False, representation='Adjacency Matrix'):
-        if representation == 'Adjacency Matrix':
-            if not directed:
-                self.adj_list = [[None] * num_of_vertices for x in range(num_of_vertices)]
-                for i in range(len(edges)):
-                    v1, v2, wt = edges[i]
-                    self.adj_list[v1][v2] = self.adj_list[v2][v1] = wt
-                self.vertices = set(i for i in range(len(self.adj_list)))
+    def __init__(self, num_of_vertices, edges, directed=False):
+        #'Adjacency Matrix' representation
+        self.adj_list = [[None] * num_of_vertices for x in range(num_of_vertices)]
+        self.vertices = set(i for i in range(len(self.adj_list)))
+        self.directed = directed
+        if not directed:
+            for i in range(len(edges)):
+                v1, v2, wt = edges[i]
+                self.adj_list[v1][v2] = self.adj_list[v2][v1] = wt
+        else:
+            for i in range(len(edges)):
+                v1, v2, wt = edges[i]
+                self.adj_list[v1][v2] = wt
+
+
 
     def printAdjMatrix(self):
         for i in range(len(self.adj_list)):
@@ -152,12 +159,15 @@ class graph:
         return False
 
     def sssp_Dijkstra(self, vertex):
+        if self.directed:
+            return "Dijktstra's algorithm only works on undirected graphs."
         if self.hasNegativeWeights():
-            return "Dijkstra's algorithm can't run on a graph with negative weights"
+            return "Dijkstra's algorithm can't run on a graph with negative weights."
+
         prQueue = PriorityQueue('min')
         for v in self.vertices:
             elem = PriorityQueueElement('INFINITY', v)
-            if v == 0:
+            if v == vertex:
                 elem.key = 0
             prQueue.addPriorityQueueElement(elem)
         distance = {}
@@ -179,12 +189,14 @@ class graph:
     def _setOfEdges(self):
         edges = set()
         for i in range(len(self.adj_list)):
-            for j in range(i + 1, len(self.adj_list)):
+            for j in range(len(self.adj_list)):
                 if self.adj_list[i][j]:
                     edges.add((i, j))
         return edges
 
-    def sssp_FloydWarshall(self, vertex):
+    def sssp_BellmanFord(self, vertex):
+        if not self.directed:
+            return "Bellman Ford algorithm only works on directed graphs."
         edges = self._setOfEdges()
         distance = {}
         for v in self.vertices:
@@ -194,10 +206,8 @@ class graph:
             for (v1, v2) in edges:
                 if distance[v2] > distance[v1] + self.adj_list[v1][v2]:
                     distance[v2] = distance[v1] + self.adj_list[v1][v2]
-                if distance[v1] > distance[v2] + self.adj_list[v1][v2]:
-                    distance[v1] = distance[v2] + self.adj_list[v1][v2]
         for (v1, v2) in edges:
-            if distance[v1] > distance[v2] + self.adj_list[v1][v2]:
+            if distance[v2] > distance[v1] + self.adj_list[v1][v2]:
                 return "Negative weight cycle edge:" + str(v1) + "," + str(v2)
         return distance
 
@@ -205,8 +215,9 @@ class graph:
 #Main
 def main():
     print "Let's make a graph!"
-    G1 = graph(8, [(0, 1, 6), (0, 2, 5), (1, 2, 12), (2, 3, 9), (2, 5, 7), (5, 4, 15), (5, 6, 10), (6, 0, 8), (6, 7, 3),
-                   (7, 0, 14)])
+    edges_with_weights = [(0, 1, 6), (0, 2, 5), (1, 2, 12), (2, 3, 9), (2, 5, 7), (5, 4, 15), (5, 6, 10), (6, 0, 8), (6, 7, 3),
+                   (7, 0, 14)]
+    G1 = graph(8, edges_with_weights)
     G1.printAdjMatrix()
     print(G1._setOfEdges())
     # print(G1._neighbors(0))
@@ -222,7 +233,8 @@ def main():
     # print(G2.cycle())
     # print(G3.cycle())
     print(G1.sssp_Dijkstra(0))
-    print(G1.sssp_FloydWarshall(0))
+    GDir = graph(8, edges_with_weights, True)
+    print(GDir.sssp_BellmanFord(7))
 
 
 if __name__ == "__main__":
