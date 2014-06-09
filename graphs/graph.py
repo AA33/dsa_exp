@@ -1,11 +1,9 @@
+__author__ = 'aanurag'
+
 from sorting_misc.heapsort import heapify, getMinMax
 from sorting_misc.priority_queue import PriorityQueue, PriorityQueueElement
 from sorting_misc.sorts import less_than
-
-__author__ = 'aanurag'
-
 import sys
-from sorting_misc import heapsort
 
 
 class graph:
@@ -22,7 +20,6 @@ class graph:
             for i in range(len(edges)):
                 v1, v2, wt = edges[i]
                 self.adj_list[v1][v2] = wt
-
 
 
     def printAdjMatrix(self):
@@ -115,7 +112,6 @@ class graph:
 
     def MST(self):
         if len(self.vertices) > 0:
-            root = 0
             visited = set()
             visited.add(0)
             mst = []
@@ -208,33 +204,34 @@ class graph:
                     distance[v2] = distance[v1] + self.adj_list[v1][v2]
         for (v1, v2) in edges:
             if distance[v2] > distance[v1] + self.adj_list[v1][v2]:
-                return "Negative weight cycle edge:" + str(v1) + "," + str(v2)
+                return "Negative weight cycle."
         return distance
 
 
 #Main
 def main():
     print "Let's make a graph!"
-    edges_with_weights = [(0, 1, 6), (0, 2, 5), (1, 2, 12), (2, 3, 9), (2, 5, 7), (5, 4, 15), (5, 6, 10), (6, 0, 8), (6, 7, 3),
-                   (7, 0, 14)]
+    edges_with_weights = [(0, 1, 6), (0, 2, 5), (1, 2, 12), (2, 3, 9), (2, 5, 7), (5, 4, 15), (5, 6, 10), (6, 0, 8),
+                          (6, 7, 3),
+                          (7, 0, 14)]
     G1 = graph(8, edges_with_weights)
     G1.printAdjMatrix()
     print(G1._setOfEdges())
-    # print(G1._neighbors(0))
-    # print(G1.MST())
-    # G1_MST = graph(8,[(a,b,wt) for (a,b,wt) in G1.MST()])
-    # print(G1_MST.cycle())
-    # G1.DFS()
-    # print(G1.path(0,6))
-    # print(G1.spanning_tree())
-    # G3 = graph(8,[(a,b,1) for (a,b) in G1.spanning_tree()])
-    # print(G1.cycle())
-    # G2 = graph(8,[(0,1,6),(1,2,12),(2,3,9),(2,5,7),(5,4,15),(5,6,10),(6,7,3),(7,0,14)])
-    # print(G2.cycle())
-    # print(G3.cycle())
+    print(G1._neighbors(0))
+    print(G1.MST())
+    G1_MST = graph(8,[(a,b,wt) for (a,b,wt) in G1.MST()])
+    print(G1_MST.cycle())
+    G1.DFS()
+    print(G1.path(0,6))
+    print(G1.spanning_tree())
+    G3 = graph(8,[(a,b,1) for (a,b) in G1.spanning_tree()])
+    print(G1.cycle())
+    G2 = graph(8,[(0,1,6),(1,2,12),(2,3,9),(2,5,7),(5,4,15),(5,6,10),(6,7,3),(7,0,14)])
+    print(G2.cycle())
+    print(G3.cycle())
     print(G1.sssp_Dijkstra(0))
     GDir = graph(8, edges_with_weights, True)
-    print(GDir.sssp_BellmanFord(7))
+    print(GDir.sssp_BellmanFord(0))
 
 
 if __name__ == "__main__":
