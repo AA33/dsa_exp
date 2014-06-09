@@ -1,0 +1,34 @@
+This is a Data Structures and Algorithms practice repository in Python.
+
+It includes implementations of:
+
+-Sorting related algorithms:
+	-Insertion sort
+	-Quicksort
+	-Heapsort
+	-Priority queue
+	-Order statistics
+	
+-List related data structures:
+	-Linked List
+	-Skip List
+	
+-Binary search tree and related data structures:
+	-Binary search tree
+	-Red Black tree
+	-Interval tree
+	
+-Dynamic Programming algorithms:
+	-Longest Common Subsequence
+	-0~1 Knapsack
+
+-Graph data structure and related algorithms:
+	-Neighbours list
+	-Simple path
+	-Spanning tree
+	-Cycle detection
+	-Minimum Spanning tree
+	-Single Source Shortest Paths using Dijkstra's Algorithm
+	-Single Source Shortest Paths using Bellman-Ford Algorithm for negative edge weight graphs
+	
+	
