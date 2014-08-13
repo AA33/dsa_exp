@@ -2,6 +2,7 @@ __author__ = 'aanurag'
 
 import sys
 
+
 class ListNode:
     def __init__(self):
         self.val = None
@@ -20,7 +21,7 @@ class LinkedList:
         self.node = new_node
         self.length += 1
 
-    def orderedInsert(self,val):
+    def orderedInsert(self, val):
         new_node = ListNode()
         new_node.val = val
         cur_node = self.node
@@ -78,7 +79,7 @@ class LinkedList:
         return cycle_length
 
 
-#Main
+# Main
 def main():
     linked_list = LinkedList()
     for i in range(10):
@@ -92,7 +93,6 @@ def main():
     linked_list.force_cycle()
     linked_list.print_all_elems()
     print("Cycle length:" + str(linked_list.has_cycle()))
-
 
 if __name__ == "__main__":
     sys.exit(main())
