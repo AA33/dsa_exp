@@ -24,20 +24,20 @@ class IntervalTree(BinaryTree):
                     self.right = IntervalTree()
                 return self.right.insert(key, self)
             else:
-                self.max = max(self, key[1])
+                self.max = max(self.max, key[1])
                 if (self.left == None):
                     self.left = IntervalTree()
                 return self.left.insert(key, self)
         except TypeError as e:
-                print "Expected tuple, didn't find it."
+            print "Expected tuple, didn't find it."
 
 
     def delete(self, key):
         if (self.key == key):
-            #leaf
+            # leaf
             if self.left == None and self.right == None:
                 self.key = None
-            #only right subtree
+            # only right subtree
             elif self.left == None:
                 node = self.right
                 self.key = node.key
@@ -84,6 +84,7 @@ class IntervalTree(BinaryTree):
 
     def findOverlapping(self, key):
         node = self
+        # check if there is a node, if there is does it not overlap; If it overlaps we are done
         while node and (node.key[0] >= key[1] or node.key[1] < key[0]):
             if node.left and key[0] < node.left.max:
                 node = node.left
@@ -113,17 +114,19 @@ def main():
     print(arr)
     BST = IntervalTree()
     # for i in range(len(arr)):
-    #     BST.insert(())
-    BST.insert((17,19))
-    BST.insert((5,11))
-    BST.insert((4,8))
-    BST.insert((15,18))
-    BST.insert((7,10))
-    BST.insert(21,23)
+    # BST.insert(())
+    BST.insert((5, 11))
+    BST.insert((17, 19))
+
+    BST.insert((4, 8))
+    BST.insert((15, 18))
+    BST.insert((7, 10))
+    BST.insert((21, 23))
     print(BST.inorder())
-    # BST.delete((5,8))
-    print(BST.findOverlapping((14,16)))
-    print(BST.findOverlapping((12,14)))
+    BST.delete((4, 8))
+    print(BST.inorder())
+    print(BST.findOverlapping((14, 28)))
+    print(BST.findOverlapping((12, 14)))
 
 
 if __name__ == "__main__":

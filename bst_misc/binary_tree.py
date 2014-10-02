@@ -138,6 +138,47 @@ class BinaryTree:
             else:
                 return right_lca
 
+    def get_level_map(self):
+        dict = {}
+        self._get_lmap(dict, 0)
+        return dict
+
+    def _get_lmap(self, level_dict, level):
+        if level in level_dict:
+            level_dict[level].append(self.key)
+        else:
+            level_dict[level] = [self.key]
+        if self.left:
+            self.left._get_lmap(level_dict, level + 1)
+        if self.right:
+            self.right._get_lmap(level_dict, level + 1)
+
+    def get_max_path_sum(self):
+        max_root, max_other = self._get_max_path_sum()
+        return max_root
+
+    def _get_max_path_sum(self):
+        left_sum = right_sum = left_root = right_root = 0
+        if self.left:
+            left_root, left_sum = self.left._get_max_path_sum()
+        if self.right:
+            right_root, right_sum = self.right._get_max_path_sum()
+        self_root = self.key + left_sum + right_sum
+
+        if self_root > left_root and self_root > right_root:
+            part1 = self_root
+        elif left_root > self_root and left_root > right_root:
+            part1 = left_root
+        else:
+            part1 = right_root
+
+        if left_sum > right_sum:
+            part2 = left_sum + self.key
+        else:
+            part2 = right_sum + self.key
+
+        return part1, part2
+
 
 def main():
     arr = [45, 18, 81, 65, 3, 79, 23, 5, 4, 78]
@@ -148,6 +189,7 @@ def main():
     print(BST.inorder())
     print(BST.least_common_ancestor(BST.left.left.right, BST.left.right).key)
     print(BST.least_common_ancestor(BST.right.left.right, BST.right.left.right.left).key)
+    print BST.get_level_map()
     # print(BST.kth_smallest(10))
     # BST = RBTree()
     # for i in range(len(arr)):
@@ -172,6 +214,24 @@ def main():
     # print(BST.inorder())
     # BST.delete(54)
     # print(BST.inorder())
+    BT = BinaryTree()
+    BT.key = 8
+    BT.left = BinaryTree()
+    BT.left.key = 7
+    BT.right = BinaryTree()
+    BT.right.key = 23
+    left = BT.left
+    left.left = BinaryTree()
+    left.left.key = 15
+    left.right = BinaryTree()
+    left.right.key = 9
+    right = BT.right
+    right.left = BinaryTree()
+    right.left.key = 2
+    right.right = BinaryTree()
+    right.right.key = 1
+
+    print(BT.get_max_path_sum())
 
 
 if __name__ == "__main__":
