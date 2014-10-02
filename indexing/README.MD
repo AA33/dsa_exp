@@ -28,4 +28,4 @@ There are a couple of sample csv input files created for testing:
 
 
 *tests.py* has the unit tests I used for testing. They test serialization and deserialization as well apart from searching.
-Also, *serilized* has an example serialization. 
+Also, *serialized* has an example serialization. 
