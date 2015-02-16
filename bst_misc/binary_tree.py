@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 __author__ = 'aanurag'
 
 import sys
@@ -117,6 +119,48 @@ class BinaryTree:
         else:
             return None
 
+    def inorder_by_iteration(self):
+        if not self.key:
+            return
+        stack = list()
+        current = self
+        i = 0
+        while len(stack) > 0 or current:
+            if current:
+                stack.append(current)
+                current = current.left
+            else:
+                current = stack.pop()
+                print current.key
+                current = current.right
+            i += 1
+        print "Iterations" + str(i)
+
+    def is_balanced(self):
+        if not self.key:
+            return
+        stack = list()
+        heights = set()
+        current = self, 0
+        while len(stack) > 0 or current[0]:
+            if current[0]:
+                stack.append(current)
+                current = current[0].left, current[1] + 1
+
+            else:
+                current = stack.pop()
+                if current[0].left is None and current[0].right is None:
+                    heights.add(current[1])
+                    if len(heights) > 2:
+                        print heights
+                        return False
+                current = current[0].right, current[1] + 1
+
+        heights = list(heights)
+        if len(heights) == 2:
+            return abs(heights[0] - heights[1]) <= 1
+        return True
+
     def least_common_ancestor(self, p, q):
         if self is None:
             return None
@@ -139,15 +183,12 @@ class BinaryTree:
                 return right_lca
 
     def get_level_map(self):
-        dict = {}
-        self._get_lmap(dict, 0)
-        return dict
+        level_dict = defaultdict(lambda: [])
+        self._get_lmap(level_dict, 0)
+        return level_dict
 
     def _get_lmap(self, level_dict, level):
-        if level in level_dict:
-            level_dict[level].append(self.key)
-        else:
-            level_dict[level] = [self.key]
+        level_dict[level].append(self.key)
         if self.left:
             self.left._get_lmap(level_dict, level + 1)
         if self.right:
@@ -187,6 +228,11 @@ def main():
     for i in range(len(arr)):
         BST.insert(arr[i])
     print(BST.inorder())
+    print "==============="
+    BST.inorder_by_iteration()
+    print "==============="
+    print BST.is_balanced()
+    print "==============="
     print(BST.least_common_ancestor(BST.left.left.right, BST.left.right).key)
     print(BST.least_common_ancestor(BST.right.left.right, BST.right.left.right.left).key)
     print BST.get_level_map()
