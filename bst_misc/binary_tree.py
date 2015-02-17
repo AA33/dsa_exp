@@ -136,6 +136,45 @@ class BinaryTree:
             i += 1
         print "Iterations" + str(i)
 
+    def postorder_by_iteration(self):
+        if not self.key:
+            return
+        stack1 = list()
+        stack2 = list()
+        stack1.append(self)
+
+        while len(stack1) > 0:
+            current = stack1.pop()
+            if current:
+                stack2.append(current)
+                if current.left:
+                    stack1.append(current.left)
+                if current.right:
+                    stack1.append(current.right)
+
+        print '=============='
+        while len(stack2) > 0:
+            current = stack2.pop()
+            print current.key
+        print '=============='
+
+    def preorder_by_iteration(self):
+        if not self.key:
+            return
+        stack = list()
+        stack.append(self)
+
+        print '==========='
+        while len(stack) > 0:
+            current = stack.pop()
+            if current:
+                print current.key
+                if current.right:
+                    stack.append(current.right)
+                if current.left:
+                    stack.append(current.left)
+        print '=========='
+
     def is_balanced(self):
         if not self.key:
             return
@@ -231,6 +270,8 @@ def main():
     print "==============="
     BST.inorder_by_iteration()
     print "==============="
+    BST.postorder_by_iteration()
+    BST.preorder_by_iteration()
     print BST.is_balanced()
     print "==============="
     print(BST.least_common_ancestor(BST.left.left.right, BST.left.right).key)
