@@ -8,7 +8,7 @@ import sys
 
 class graph:
     def __init__(self, num_of_vertices, edges, directed=False):
-        #'Adjacency Matrix' representation
+        # 'Adjacency Matrix' representation
         self.adj_list = [[None] * num_of_vertices for x in range(num_of_vertices)]
         self.vertices = set(i for i in range(len(self.adj_list)))
         self.directed = directed
@@ -118,7 +118,7 @@ class graph:
             while visited != self.vertices:
                 wt_arr = []
                 wt_dict = {}
-                #Add all neighbors to wt_arr
+                # Add all neighbors to wt_arr
                 for v in visited:
                     unvisited_neighbors = self._neighbors(v).difference(visited)
                     for uv in unvisited_neighbors:
@@ -196,7 +196,7 @@ class graph:
         edges = self._setOfEdges()
         distance = {}
         for v in self.vertices:
-            distance[v] = 99999  #Fake infinity
+            distance[v] = 99999  # Fake infinity
         distance[vertex] = 0
         for i in range(len(self.adj_list)):
             for (v1, v2) in edges:
@@ -208,7 +208,7 @@ class graph:
         return distance
 
 
-#Main
+# Main
 def main():
     print "Let's make a graph!"
     edges_with_weights = [(0, 1, 6), (0, 2, 5), (1, 2, 12), (2, 3, 9), (2, 5, 7), (5, 4, 15), (5, 6, 10), (6, 0, 8),
@@ -219,14 +219,14 @@ def main():
     print(G1._setOfEdges())
     print(G1._neighbors(0))
     print(G1.MST())
-    G1_MST = graph(8,[(a,b,wt) for (a,b,wt) in G1.MST()])
+    G1_MST = graph(8, [(a, b, wt) for (a, b, wt) in G1.MST()])
     print(G1_MST.cycle())
     G1.DFS()
-    print(G1.path(0,6))
+    print(G1.path(0, 6))
     print(G1.spanning_tree())
-    G3 = graph(8,[(a,b,1) for (a,b) in G1.spanning_tree()])
+    G3 = graph(8, [(a, b, 1) for (a, b) in G1.spanning_tree()])
     print(G1.cycle())
-    G2 = graph(8,[(0,1,6),(1,2,12),(2,3,9),(2,5,7),(5,4,15),(5,6,10),(6,7,3),(7,0,14)])
+    G2 = graph(8, [(0, 1, 6), (1, 2, 12), (2, 3, 9), (2, 5, 7), (5, 4, 15), (5, 6, 10), (6, 7, 3), (7, 0, 14)])
     print(G2.cycle())
     print(G3.cycle())
     print(G1.sssp_Dijkstra(0))
