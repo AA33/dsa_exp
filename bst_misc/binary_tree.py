@@ -94,7 +94,6 @@ class BinaryTree:
             self.right.inorder(inorder_opt)
         return inorder_opt
 
-
     def size(self, size=0):
         if self:
             if self.left:

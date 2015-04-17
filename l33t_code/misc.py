@@ -124,8 +124,8 @@ def bfs(g, start):
         v = q.popleft()
         print "Visited:" + str(v)
         # process_ve(v)
-        nbors = g[v]
-        for n in nbors:
+        neighbors = g[v]
+        for n in neighbors:
             if not p[n]:
                 # process_edge((v,n))
                 print ((v, n))
@@ -139,31 +139,60 @@ def bfs(g, start):
 
 
 def dfs(g, start):
-    d = [False] * (len(g) + 1)
-    p = [False] * (len(g) + 1)
-    pts = [-1] * (len(g) + 1)
-    d[start] = True
-    q = list()
-    q.append(start)
-    while len(q) > 0:
-        v = q.pop()
+    discovered = [False] * (len(g) + 1)
+    processed = [False] * (len(g) + 1)
+    parents = [-1] * (len(g) + 1)
+    discovered[start] = True
+    stack = list()
+    stack.append(start)
+    while len(stack) > 0:
+        v = stack.pop()
         print "Visited:" + str(v)
         # process_ve(v)
-        nbors = g[v]
-        for n in reversed(nbors):
-            if not p[n]:
+        neighbors = g[v]
+        for n in reversed(neighbors):
+            if not processed[n]:
                 # process_edge((v,n))
                 print ((v, n))
-            if not d[n]:
-                d[n] = True
-                pts[n] = v
-                q.append(n)
+            if not discovered[n]:
+                discovered[n] = True
+                parents[n] = v
+                stack.append(n)
         # process_vl(v)
-        p[v] = True
-    return pts
+        processed[v] = True
+    return parents
+
+
+def is_bipartite(g, start):
+    discovered = [False] * (len(g) + 1)
+    processed = [False] * (len(g) + 1)
+    parents = [-1] * (len(g) + 1)
+    sets = [None] * (len(g) + 1)
+
+    discovered[start] = True
+    sets[start] = True
+    stack = list()
+    stack.append(start)
+    while len(stack) > 0:
+        v = stack.pop()
+        neighbors = g[v]
+        for n in reversed(neighbors):
+            if not processed[n]:
+                if sets[n] == sets[v]:
+                    return False
+                elif sets[n] is None:
+                    sets[n] = not sets[v]
+            if not discovered[n]:
+                discovered[n] = True
+                parents[n] = v
+                stack.append(n)
+        processed[v] = True
+    return True
 
 
 g = {1: [2, 5, 6], 2: [1, 3, 5], 3: [2, 4], 4: [3, 5], 5: [1, 2, 4], 6: [1]}
+g_bp = {1: [4, 6], 2: [5], 3: [5, 6], 4: [1], 5: [2, 3], 6: [1, 3]}  # bipartite graph
+g_flower = {1: [2, 3, 4, 5, 6], 2: [1], 3: [1], 4: [1], 5: [1], 6: [1]}  # flower graph
 wg = {0: [(1, 1), (3, 4), (4, 3)], 1: [(0, 1), (3, 3), (4, 2)], 2: [(5, 5), (4, 4)], 3: [(0, 4), (1, 4), (4, 4)],
       4: [(0, 3), (1, 2), (3, 4), (2, 4), (5, 7)], 5: [(4, 7), (2, 5)]}
 
@@ -354,15 +383,19 @@ def main():
     print expand("a(v,b)m(x,y),p,q,r,(x)s(e,o)")
 
     arr1 = [1]
-    arr2 = [1,2]
-    arr3 = [1,2,3]
-    arr11 = [1,1]
-    arr112 = [1,1,2]
+    arr2 = [1, 2]
+    arr3 = [1, 2, 3]
+    arr11 = [1, 1]
+    arr112 = [1, 1, 2]
 
     dijkstra(wg, 0)
     prim(wg, 0)
     contract_edge(wg, 0, 1)
     levenshtein("Saturday", "Sunday")
+
+    print is_bipartite(g, 1)
+    print is_bipartite(g_bp, 1)
+    print is_bipartite(g_flower, 1)
 
 
 if __name__ == "__main__":

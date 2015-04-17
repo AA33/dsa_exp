@@ -3,6 +3,7 @@ __author__ = 'aanurag'
 import sys
 from binary_tree import BinaryTree
 
+
 class RBTree(BinaryTree):
     def __init__(self):
         BinaryTree.__init__(self)
@@ -31,7 +32,7 @@ class RBTree(BinaryTree):
             x_parent = x_node.parent
             x_grandparent = x_parent.parent
             if not x_grandparent: break
-            #A: if parent is left of grand parent
+            # A: if parent is left of grand parent
             if x_parent == x_grandparent.left:
                 y_node = x_node.parent.parent.right  #uncle of x_node
                 #Case1: Recolor
@@ -80,7 +81,7 @@ class RBTree(BinaryTree):
         parent.right = self.left
         self.left = parent
         parent.parent = self
-        #return self
+        # return self
 
     def right_rotate(self):
         parent = self.parent
@@ -92,7 +93,7 @@ class RBTree(BinaryTree):
         parent.left = self.right
         self.right = parent
         parent.parent = self
-        #return self
+        # return self
 
     def areAllNodesColored(self):
         if self.key == None:
@@ -139,7 +140,7 @@ class RBTree(BinaryTree):
         if not self.isParentOfEveryRedNodeBlack():
             print "Red node with red child!!!"
             return
-        #missing checking the constant black length property
+        # missing checking the constant black length property
         print "All good"
         return
 
@@ -164,10 +165,11 @@ def main():
         BST.RBinsert(arr[i])
     print(BST.RBinorder())
     BST.checkRBProps()
-    #missing RBdelete function hence using base class's delete, may not preserve RB props in all cases
+    # missing RBdelete function hence using base class's delete, may not preserve RB props in all cases
     BST.delete(45)
     print(BST.RBinorder())
     BST.checkRBProps()
+
 
 if __name__ == "__main__":
     sys.exit(main())

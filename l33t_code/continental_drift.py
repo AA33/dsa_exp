@@ -66,6 +66,7 @@ class ContinentalDriftTest(unittest.TestCase):
     [1, *3, *6, 4,  1],
     [*2, *2, 1, 1,  1]
     '''
+
     def test_drift_medium(self):
         medium = [[1, 1, 1, 2, 2],
                   [1, 5, 6, 3, 1],
@@ -109,7 +110,7 @@ def to_one_ocean(start, graph, size):
         this_works = start.popleft()
         set_loc(one_ocean, this_works)
         already_set.add(this_works)
-        start.extend(set(graph[this_works])-already_set)
+        start.extend(set(graph[this_works]) - already_set)
     return one_ocean
 
 
@@ -146,3 +147,4 @@ def seek_loc(continent, loc):
 
 def set_loc(to_ocean, loc):
     to_ocean[loc[0]][loc[1]] = True
+
